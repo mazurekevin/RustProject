@@ -7,5 +7,6 @@ edition = "2021"
 
 [dependencies]
 shared = { path = "../shared" }
+md5 = "0.7.0"
 
 
