@@ -6,10 +6,11 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-shared ={path= "../shared"}
-serde = { version= "1", features=["derive"] }
+shared = { path = "../shared" }
+serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 rust-hashcash = "0.1"
+md5 = "0.7.0"
 
 [[bin]]
 name = "server"
