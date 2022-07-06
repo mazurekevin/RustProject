@@ -24,7 +24,7 @@ fn main() {
         let hexSeed = format_dec_to_hex(seed);
         println!("{} seed",seed);
         println!("{} hexSeed ",hexSeed);
-        let concatSeed = String::from(concat_string(hexSeed.to_string(), input.message.to_string()));
+        let concatSeed = String::from(concat_string(hexSeed.to_string(), input.message.to_string()).trim());
         println!("{} concat",concatSeed);
         //let concatSeed = String::from("000000000000034Chello");
         let digest = md5::compute(format!("{}", concatSeed).as_bytes());
