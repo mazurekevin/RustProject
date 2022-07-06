@@ -13,7 +13,7 @@ struct StructInput {
 
 fn main() {
     let input = StructInput {
-        complexity: 3,
+        complexity: 9,
         message: String::from("hello"),
     };
 
@@ -22,13 +22,23 @@ fn main() {
 
     while finish == false {
         let hexSeed = format_dec_to_hex(seed);
-        let concatSeed = concat_string(hexSeed.to_string(), input.message.to_string());
-        let digest = md5::compute(concatSeed);
+        println!("{} seed",seed);
+        println!("{} hexSeed ",hexSeed);
+        let concatSeed = String::from(concat_string(hexSeed.to_string(), input.message.to_string()));
+        println!("{} concat",concatSeed);
+        //let concatSeed = String::from("000000000000034Chello");
+        let digest = md5::compute(format!("{}", concatSeed).as_bytes());
+        println!("{:?} result",digest);
         let hashCode = format_digest_to_hex(digest);
+        println!("{}",hashCode);
         let mut binaryHash: String = format_to_binary(hashCode);
+        println!("{} binaire",binaryHash);
         finish = check_seed(binaryHash, input.complexity);
+        //finish = true;
         seed += 1;
+
     }
+
 }
 
 fn concat_string(seed: String, message: String) -> String {
@@ -54,6 +64,7 @@ fn check_seed(binaryHash: String, complexity: u32) -> bool {
             print!("false\n");
             return false;
         } else if index >= complexity {
+            println!("{}",binaryHash);
             print!("good ");//envoie du resultat au server
             return true;
         }
