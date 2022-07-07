@@ -28,7 +28,9 @@ fn main() {
             receive(&mut stream, leaderboard_array);
 
             // challenge md5
-            let challenge = Challenge::MD5HashCash(ChallengeInput{complexity: 5, message: "Hello".parse().unwrap() });
+            /*
+            let challenge_array = [0; 4];
+            receive(&mut stream, challenge_array);
             loop {
                 match challenge {
                     Challenge::MD5HashCash(hashcash) => {
@@ -47,6 +49,8 @@ fn main() {
                     }
                 }
             }
+
+             */
 
             //RoundSummary if one player
             let summary_array = [0; 4];
@@ -142,7 +146,8 @@ struct PublicPlayer {
 
 #[derive(Debug, Serialize, Deserialize)]
 enum Challenge {
-    ChallengeName(ChallengeInput),
+    //ChallengeName(ChallengeInput),
+    MD5HashCash(ChallengeInput),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
