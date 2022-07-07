@@ -13,7 +13,8 @@ struct StructOutput {
 }
 
 fn main() {
-    let structure = start(9,String::from("hello"));
+    let result = start(9,String::from("hello"));
+    println!("seed: {}, hashcode: {}", result.seed, result.hashcode);
 
 }
 
@@ -28,14 +29,11 @@ fn start(complexity: u32, message: String)->StructOutput{
     let mut binary_hash;
 
     while finish == false {
-        println!("complexity: {}, message: {}", complexity, message);
         hex_seed = format_dec_to_hex(seed);
         concat_seed = String::from(concat_string(hex_seed.to_string(), message.to_string()).trim());
         digest = md5::compute(format!("{}", concat_seed).as_bytes());
         hash_code = format_digest_to_hex(digest);
-        println!("seed: {}, hashcode: {}", hex_seed, hash_code.clone());
         binary_hash= format_to_binary(hash_code.clone());
-        println!("binary_hash: {}\n", binary_hash);
         finish = check_seed(binary_hash, complexity);
         seed += 1;
     }
