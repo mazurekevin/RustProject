@@ -1,5 +1,3 @@
-use std::fmt::format;
-use std::io::Split;
 use md5;
 use md5::Digest;
 use crate::ChallengeOutput;
@@ -14,7 +12,7 @@ pub(crate) fn md5_hash(complexity: u32, message: String ) -> ChallengeOutput {
         let concat_seed = String::from(concat_string(hex_seed.to_string(), message.to_string()).trim());
         let digest = md5::compute(format!("{}", concat_seed).as_bytes());
         let hash_code = format_digest_to_hex(digest);
-        let mut binary_hash: String = format_to_binary(hash_code.clone());
+        let binary_hash: String = format_to_binary(hash_code.clone());
         finish = check_seed(binary_hash, complexity);
         seed += 1;
         if finish {

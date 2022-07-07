@@ -1,6 +1,6 @@
 use std::io::{Read, Write};
 use std::net::TcpStream;
-use std::{io, str};
+use std::{str};
 use serde::{Serialize, Deserialize};
 
 mod challenge_md5;
@@ -12,7 +12,7 @@ fn main() {
             let hello = Message::Hello;
             send(&mut stream, hello);
 
-            let subscribe = Message::Subscribe(Subscribe { name: "player".parse().unwrap() });
+            let subscribe = Message::Subscribe(Subscribe { name: "player2".parse().unwrap() });
             send(&mut stream, subscribe);
 
             // welcome
@@ -30,6 +30,8 @@ fn main() {
             // challenge md5
             let challenge_array = [0; 4];
             receive(&mut stream, challenge_array);
+            // need to receive the challenge md5
+            /*
             loop {
                 match challenge {
                     Challenge::MD5HashCash(hashcash) => {
@@ -48,6 +50,8 @@ fn main() {
                     }
                 }
             }
+
+             */
 
             //RoundSummary if one player
             let summary_array = [0; 4];
