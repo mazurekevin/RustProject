@@ -1,3 +1,4 @@
+use std::io;
 use md5;
 use md5::Digest;
 
@@ -6,27 +7,40 @@ struct StructInput {
     message: String,
 }
 
+struct StructOutput {
+    seed: String,
+    hashcode: String,
+}
+
 fn main() {
-    let input = StructInput {
-        complexity: 9,
-        message: String::from("hello"),
-    };
+    let structure = start(9,String::from("hello"));
+
+}
+
+fn start(complexity: u32, message: String)->StructOutput{
 
     let mut finish = false;
     let mut seed = 0;
+    let mut hex_seed = "".to_string();
+    let mut concat_seed;
+    let mut digest;
+    let mut hash_code = "".to_string();
+    let mut binary_hash;
 
     while finish == false {
-        println!("complexity: {}, message: {}", input.complexity, input.message);
-        let hex_seed = format_dec_to_hex(seed);
-        let concat_seed = String::from(concat_string(hex_seed.to_string(), input.message.to_string()).trim());
-        let digest = md5::compute(format!("{}", concat_seed).as_bytes());
-        let hash_code = format_digest_to_hex(digest);
-        println!("seed: {}, hashcode: {}", hex_seed, hash_code);
-        let binary_hash: String = format_to_binary(hash_code);
+        println!("complexity: {}, message: {}", complexity, message);
+        hex_seed = format_dec_to_hex(seed);
+        concat_seed = String::from(concat_string(hex_seed.to_string(), message.to_string()).trim());
+        digest = md5::compute(format!("{}", concat_seed).as_bytes());
+        hash_code = format_digest_to_hex(digest);
+        println!("seed: {}, hashcode: {}", hex_seed, hash_code.clone());
+        binary_hash= format_to_binary(hash_code.clone());
         println!("binary_hash: {}\n", binary_hash);
-        finish = check_seed(binary_hash, input.complexity);
+        finish = check_seed(binary_hash, complexity);
         seed += 1;
     }
+
+    return StructOutput {seed: hex_seed, hashcode: hash_code.clone()};
 }
 
 fn concat_string(seed: String, message: String) -> String {
@@ -80,6 +94,60 @@ fn to_binary(c: char) -> String {
         _ => "",
     };
     return String::from(b);
+}
+
+
+#[cfg(test)]
+mod tests {
+    use crate::{check_seed, concat_string, format_dec_to_hex, format_digest_to_hex, format_to_binary, start, StructOutput};
+    use super::main;
+
+
+    #[test]
+    fn format_dec_to_hex_test() {
+        let seed = 844;
+        let hex_seed = format_dec_to_hex(seed);
+        assert_eq!("000000000000034C", hex_seed);
+    }
+
+    #[test]
+    fn concat_string_test() {
+        let seed = String::from("000000000000034C");
+        let message = String::from("hello");
+        assert_eq!("000000000000034Chello", concat_string(seed,message).trim());
+    }
+
+    #[test]
+    fn md5_test() {
+        let concat_seed = "000000000000034Chello";
+        let digest = md5::compute(format!("{}", concat_seed).as_bytes());
+        assert_eq!(String::from("00441745D9BDF8E5D3C7872AC9DBB2C3"), format_digest_to_hex(digest));
+    }
+
+    #[test]
+    fn format_to_binary_test(){
+        let hascode = String::from("00441745D9BDF8E5D3C7872AC9DBB2C3");
+        assert_eq!(String::from("00000000010001000001011101000101110110011011110111111000111001011101001111000111100001110010101011001001110110111011001011000011"),format_to_binary(hascode))
+    }
+
+    #[test]
+    fn check_seed_test(){
+        let binaire = String::from("00000000010001000001011101000101110110011011110111111000111001011101001111000111100001110010101011001001110110111011001011000011");
+        let complexity = 9;
+        assert_eq!(true,check_seed(binaire,complexity))
+    }
+
+
+    #[test]
+    fn start_test(){
+        let structure = StructOutput {seed: String::from("000000000000034C"), hashcode: String::from("00441745D9BDF8E5D3C7872AC9DBB2C3")};
+        let res = start(9,String::from("hello"));
+        assert_eq!(structure.seed,res.seed);
+        assert_eq!(structure.hashcode,res.hashcode);
+
+    }
+
+
 }
 
 
