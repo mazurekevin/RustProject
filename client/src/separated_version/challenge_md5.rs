@@ -13,13 +13,11 @@ struct StructOutput {
 }
 
 fn main() {
-    let result = start(9,String::from("hello"));
+    let result = start(9, String::from("hello"));
     println!("seed: {}, hashcode: {}", result.seed, result.hashcode);
-
 }
 
-fn start(complexity: u32, message: String)->StructOutput{
-
+fn start(complexity: u32, message: String) -> StructOutput {
     let mut finish = false;
     let mut seed = 0;
     let mut hex_seed = "".to_string();
@@ -33,12 +31,12 @@ fn start(complexity: u32, message: String)->StructOutput{
         concat_seed = String::from(concat_string(hex_seed.to_string(), message.to_string()).trim());
         digest = md5::compute(format!("{}", concat_seed).as_bytes());
         hash_code = format_digest_to_hex(digest);
-        binary_hash= format_to_binary(hash_code.clone());
+        binary_hash = format_to_binary(hash_code.clone());
         finish = check_seed(binary_hash, complexity);
         seed += 1;
     }
 
-    return StructOutput {seed: hex_seed, hashcode: hash_code.clone()};
+    return StructOutput { seed: hex_seed, hashcode: hash_code.clone() };
 }
 
 fn concat_string(seed: String, message: String) -> String {
@@ -112,7 +110,7 @@ mod tests {
     fn concat_string_test() {
         let seed = String::from("000000000000034C");
         let message = String::from("hello");
-        assert_eq!("000000000000034Chello", concat_string(seed,message).trim());
+        assert_eq!("000000000000034Chello", concat_string(seed, message).trim());
     }
 
     #[test]
@@ -123,29 +121,26 @@ mod tests {
     }
 
     #[test]
-    fn format_to_binary_test(){
+    fn format_to_binary_test() {
         let hascode = String::from("00441745D9BDF8E5D3C7872AC9DBB2C3");
-        assert_eq!(String::from("00000000010001000001011101000101110110011011110111111000111001011101001111000111100001110010101011001001110110111011001011000011"),format_to_binary(hascode))
+        assert_eq!(String::from("00000000010001000001011101000101110110011011110111111000111001011101001111000111100001110010101011001001110110111011001011000011"), format_to_binary(hascode))
     }
 
     #[test]
-    fn check_seed_test(){
+    fn check_seed_test() {
         let binaire = String::from("00000000010001000001011101000101110110011011110111111000111001011101001111000111100001110010101011001001110110111011001011000011");
         let complexity = 9;
-        assert_eq!(true,check_seed(binaire,complexity))
+        assert_eq!(true, check_seed(binaire, complexity))
     }
 
 
     #[test]
-    fn start_test(){
-        let structure = StructOutput {seed: String::from("000000000000034C"), hashcode: String::from("00441745D9BDF8E5D3C7872AC9DBB2C3")};
-        let res = start(9,String::from("hello"));
-        assert_eq!(structure.seed,res.seed);
-        assert_eq!(structure.hashcode,res.hashcode);
-
+    fn start_test() {
+        let structure = StructOutput { seed: String::from("000000000000034C"), hashcode: String::from("00441745D9BDF8E5D3C7872AC9DBB2C3") };
+        let res = start(9, String::from("hello"));
+        assert_eq!(structure.seed, res.seed);
+        assert_eq!(structure.hashcode, res.hashcode);
     }
-
-
 }
 
 

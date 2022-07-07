@@ -38,7 +38,7 @@ fn main() {
 }
 
 fn receive(stream: &mut TcpStream, mut array: [u8; 4]) {
-    stream.read( &mut array).unwrap();
+    stream.read(&mut array).unwrap();
 
     let size_message: u32 = u32::from_be_bytes(array);
     let size_message = size_message as usize;
@@ -71,25 +71,25 @@ fn send(stream: &mut TcpStream, message_to_send: Message) {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct Welcome{
-    version: i32
+struct Welcome {
+    version: i32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Subscribe {
-    name: String
+    name: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 enum SubscribeError {
     AlreadyRegistered,
-    InvalidName
+    InvalidName,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 enum SubscribeResult {
     Ok,
-    Err(SubscribeError)
+    Err(SubscribeError),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -101,7 +101,7 @@ enum Message {
     PublicLeaderBoard(PublicLeaderBoard),
     Challenge(Challenge),
     RoundSummary(RoundSummary),
-    EndOfGame(EndOfGame)
+    EndOfGame(EndOfGame),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -114,7 +114,7 @@ struct PublicPlayer {
     score: i32,
     steps: u32,
     is_active: bool,
-    total_used_time: f64
+    total_used_time: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -126,13 +126,13 @@ enum Challenge {
 #[derive(Debug, Serialize, Deserialize)]
 struct ChallengeInput {
     complexity: u32,
-    message: String
+    message: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 struct ChallengeOutput {
     seed: u64,
-    hashcode: String
+    hashcode: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -143,7 +143,7 @@ enum ChallengeAnswer {
 #[derive(Debug, Serialize, Deserialize)]
 struct ChallengeResult {
     answer: ChallengeAnswer,
-    next_target: String
+    next_target: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -151,19 +151,19 @@ enum ChallengeValue {
     Unreachable,
     Timeout,
     BadResult(BadResult),
-    OK(Ok)
+    OK(Ok),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 struct BadResult {
     used_time: f64,
-    next_target: String
+    next_target: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Ok {
     used_time: f64,
-    next_target: String
+    next_target: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -181,16 +181,16 @@ struct MD5HashCashOutput {
 #[derive(Debug, Serialize, Deserialize)]
 struct RoundSummary {
     challenge: String,
-    chain: Vec<ReportedChallengeResult>
+    chain: Vec<ReportedChallengeResult>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 struct ReportedChallengeResult {
     name: String,
-    value: ChallengeValue
+    value: ChallengeValue,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 struct EndOfGame {
-    leader_board: PublicLeaderBoard
+    leader_board: PublicLeaderBoard,
 }

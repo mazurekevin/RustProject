@@ -2,8 +2,7 @@ use md5;
 use md5::Digest;
 use crate::ChallengeOutput;
 
-pub(crate) fn md5_hash(complexity: u32, message: String ) -> ChallengeOutput {
-
+pub(crate) fn md5_hash(complexity: u32, message: String) -> ChallengeOutput {
     let mut finish = false;
     let mut seed = 0;
 
@@ -16,10 +15,10 @@ pub(crate) fn md5_hash(complexity: u32, message: String ) -> ChallengeOutput {
         finish = check_seed(binary_hash, complexity);
         seed += 1;
         if finish {
-            return ChallengeOutput {seed: hex_seed.parse().unwrap(), hashcode: hash_code.clone()};
+            return ChallengeOutput { seed: hex_seed.parse().unwrap(), hashcode: hash_code.clone() };
         }
     }
-    return ChallengeOutput {seed: "".parse().unwrap(), hashcode: "".parse().unwrap() };
+    return ChallengeOutput { seed: "".parse().unwrap(), hashcode: "".parse().unwrap() };
 }
 
 fn concat_string(seed: String, message: String) -> String {
