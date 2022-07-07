@@ -14,10 +14,12 @@ md5 = "0.7.0"
 
 [[bin]]
 name = "server"
-path = "src/main.rs"
+path = "src/linked_version/main.rs"
 
 [[bin]]
-name = "client"
-path = "src/client.rs"
+name = "client_only"
+path = "src/separated_version/main.rs"
 
-
+[[bin]]
+name = "challenge_md5"
+path = "src/separated_version/challenge_md5.rs"

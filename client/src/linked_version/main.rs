@@ -28,7 +28,6 @@ fn main() {
             receive(&mut stream, leaderboard_array);
 
             // challenge md5
-            /*
             let challenge_array = [0; 4];
             receive(&mut stream, challenge_array);
             loop {
@@ -49,8 +48,6 @@ fn main() {
                     }
                 }
             }
-
-             */
 
             //RoundSummary if one player
             let summary_array = [0; 4];
