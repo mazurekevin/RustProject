@@ -52,7 +52,6 @@ fn main() {
             }
             */
 
-
             //RoundSummary if one player
             let summary_array = [0; 4];
             receive(&mut stream, summary_array);
